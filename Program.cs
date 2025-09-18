@@ -55,7 +55,7 @@ public class Game
         Dice dice = new Dice();
         int[] rolls = new int[4];
         bool dealerChosen = false;
-        int dealer;
+        int dealer = 0;
 
         while (!dealerChosen)
         {
@@ -92,12 +92,31 @@ public class Game
                 Console.WriteLine("There is a tie. Re-rolling for tied players.");
                 foreach (int index in tied)
                 {
-                    rolls[index] = 0; 
+                    rolls[index] = 0;
                 }
             }
-        
-       }
 
+        }
+
+        Deck deck = new Deck();
+        deck.Shuffle();
+
+        while (!deck.Empty)
+        {
+                players[dealer].Add(deck.TakeTopCard());
+                dealer = (dealer + 1) % players.Length;
+            
+        }
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            Console.WriteLine($"Player {i + 1}:");
+            foreach (Card card in players[i])
+            {
+                Console.WriteLine($"{card.Rank} of {card.Suit}");
+            }
+            Console.WriteLine();
+        }
         
     }
 }
